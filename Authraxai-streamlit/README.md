@@ -6,9 +6,13 @@ AUTHRAX AI leverages cutting-edge language models to enable users to engage in d
 
 Key Features:
 ->PDF Text Extraction: Utilizes robust algorithms to read and extract text from multiple PDF documents, consolidating the content into a single corpus for analysis.
+
 ->Text Chunking: Implements a character-based text splitter to divide the extracted text into smaller, manageable chunks, enhancing processing efficiency.
+
 ->Text Embeddings: Employs OpenAI's text embeddings to transform text chunks into numerical representations, facilitating similarity analysis and information retrieval.
+
 ->User Interaction: Allows users to input queries related to the content of the uploaded PDF documents, with the chatbot providing informed responses based on the PDF content and conversation history.
+
 ->Streamlit Interface: Offers a user-friendly interface for uploading PDF documents, posing questions, and receiving chatbot responses, all within a streamlined Streamlit application.
 
 A Journey of Technological Exploration and User-Centric Design:
