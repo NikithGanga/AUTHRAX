@@ -12,8 +12,8 @@ contract Employment {
         address employerAddress;
         string employerName;
         string employmentType;
-        uint256 employmentStartDate;
-        uint256 employmentEndDate;
+        string employmentStartDate;
+        string employmentEndDate;
         string workLocation;
         string position;
         uint256 salary;
@@ -32,10 +32,12 @@ contract Employment {
     mapping (address => bool) public employerAgree;
 
     function employeeAgrees (address _employeeAddress) public {
+        require(_employeeAddress == msg.sender, "Only employee can accept the conditions");
         employeeAgree[_employeeAddress] = true;
     }
 
     function employerAgrees (address _employerAddress) public {
+        require(_employerAddress == msg.sender, "Only employer can accept the conditions");
         employerAgree[_employerAddress] = true;
     }
     
@@ -47,8 +49,8 @@ contract Employment {
         address _employerAddress,
         string memory _employerName,
         string memory _employmentType,
-        uint256 _employmentStartDate,
-        uint256 _employmentEndDate,
+        string memory _employmentStartDate,
+        string memory _employmentEndDate,
         string memory _workLocation,
         string memory _position,
         uint256 _salary,
