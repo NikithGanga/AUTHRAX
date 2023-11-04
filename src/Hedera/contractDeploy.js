@@ -7,8 +7,8 @@ async function contractDeployFcn(walletData) {
 	console.log(`- Deploying smart contract on Hedera...🟠`);
 
 	// ETHERS PROVIDER AND SIGNER
-	const provider = walletData[1];
-	const signer = provider.getSigner();
+	const provider = await walletData[1];
+	const signer = await provider.getSigner();
 
 	// DEPLOY SMART CONTRACT
 	let contractAddress;
@@ -17,8 +17,10 @@ async function contractDeployFcn(walletData) {
 
 		const myContract = new ContractFactory(abi, bytecode, signer);
 		const contractDeployTx = await myContract.deploy({ gasLimit: gasLimit });
-		const contractDeployRx = await contractDeployTx.deployTransaction.wait();
-		contractAddress = contractDeployRx.contractAddress;
+		console.log(contractDeployTx);
+		const contractDeployRx = await contractDeployTx.waitForDeployment();
+		console.log(contractDeployRx)
+		contractAddress = contractDeployRx.target;
 		console.log(`- Contract deployed to address: \n${contractAddress} ✅`);
 	} catch (deployError) {
 		console.log(`- ${deployError.message.toString()}`);

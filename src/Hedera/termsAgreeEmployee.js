@@ -1,16 +1,16 @@
-import abi from "../../contracts/abi.js";
-import axios from "axios";
+import abi from "../Contracts/abi.js";
+// import axios from "axios";
 import { ethers } from "ethers";
 
 const delay = (ms) => new Promise((res) => setTimeout(res, ms));
 
-async function contractExecuteFcn(walletData, contractAddress) {
+async function contractExecuteTermsEmployeeFcn(walletData, contractAddress) {
 	console.log(`\n=======================================`);
 	console.log(`- Executing the smart contract...🟠`);
 
 	// ETHERS PROVIDER AND SIGNER
-	const provider = walletData[1];
-	const signer = provider.getSigner();
+	const provider = await walletData[1];
+	const signer = await provider.getSigner();
 
 	// EXECUTE THE SMART CONTRACT
 	let txHash;
@@ -20,9 +20,9 @@ async function contractExecuteFcn(walletData, contractAddress) {
 		// EXECUTE CONTRACT FUNCTION
 		const gasLimit = 100000;
 		const myContract = new ethers.Contract(contractAddress, abi, signer);
-		const createTx = await myContract.employeeAgrees( "0x7a318445c3Fd0b7d247e495B005a0dc63405c17B", { gasLimit: gasLimit });
+		const createTx = await myContract.employeeAgrees( "0xD38ef5e1cdFd4E49e57e43B21F6B7576E1861B16", { gasLimit: gasLimit });
 		const createRx = await createTx.wait();
-		txHash = createRx.transactionHash;
+		txHash = createRx.hash;
 
 		// CHECK SMART CONTRACT STATE AGAIN
 		await delay(5000); // DELAY TO ALLOW MIRROR NODES TO UPDATE BEFORE QUERYING
@@ -35,4 +35,4 @@ async function contractExecuteFcn(walletData, contractAddress) {
 	return [txHash];
 }
 
-export default contractExecuteFcn;
+export default contractExecuteTermsEmployeeFcn;

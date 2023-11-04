@@ -5,7 +5,7 @@ async function walletConnectFcn() {
 	console.log(`\n=======================================`);
 
 	// ETHERS PROVIDER
-	const provider = new ethers.providers.Web3Provider(window.ethereum, "any");
+	const provider = new ethers.BrowserProvider(window.ethereum, "any");
 
 	// SWITCH TO HEDERA TEST NETWORK
 	console.log(`- Switching network to the Hedera ${network}...🟠`);

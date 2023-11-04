@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import { Link } from "react-router-dom";
 // reactstrap components
 import {
@@ -15,10 +15,50 @@ import {
   UncontrolledTooltip,
 } from "reactstrap";
 
+import walletConnectFcn from "../../Hedera/walletConnect"
+
 export default function ExamplesNavbar() {
   const [collapseOpen, setCollapseOpen] = React.useState(false);
   const [collapseOut, setCollapseOut] = React.useState("");
   const [color, setColor] = React.useState("navbar-transparent");
+
+  const [walletData, setWalletData] = useState();
+	const [account, setAccount] = useState();
+	const [network, setNetwork] = useState();
+	const [contractAddress, setContractAddress] = useState();
+
+	const [connectTextSt, setConnectTextSt] = useState("🔌 Connect here...");
+	const [contractTextSt, setContractTextSt] = useState();
+	const [executeTextSt, setExecuteTextSt] = useState();
+
+	const [connectLinkSt, setConnectLinkSt] = useState("");
+	const [contractLinkSt, setContractLinkSt] = useState();
+	const [executeLinkSt, setExecuteLinkSt] = useState();
+
+	async function connectWallet() {
+		if (account !== undefined) {
+			setConnectTextSt(`🔌 Account ${account} already connected ⚡ ✅`);
+		} else {
+			const wData = await walletConnectFcn();
+
+			let newAccount = wData[0];
+			let newNetwork = wData[2];
+			if (newAccount !== undefined) {
+				setConnectTextSt(`🔌 Account ${newAccount} connected ⚡ ✅`);
+				setConnectLinkSt(`https://hashscan.io/${newNetwork}/account/${newAccount}`);
+
+				setWalletData(wData);
+				setAccount(newAccount);
+				setNetwork(newNetwork);
+				setContractTextSt();
+        console.log()
+			}
+		}
+	}
+
+
+
+
   React.useEffect(() => {
     window.addEventListener("scroll", changeColor);
     return function cleanup() {
@@ -135,8 +175,7 @@ export default function ExamplesNavbar() {
               <Button
                 className="nav-link d-none d-lg-block"
                 color="primary"
-                target="_blank"
-                href="#"
+                onClick={connectWallet}
               >
                Connect Wallet
               </Button>
